@@ -1,26 +1,36 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Link, Outlet, useRoutes } from 'react-router-dom';
+import ProductsPage from './pages/ProductsPage';
+import CartSummaryPage from './pages/CartSummaryPage';
+import path from 'path';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return useRoutes([
+		{
+			path: '/',
+			element: (
+				<div style={{ padding: '10px' }}>
+					<Link to="/products">Products</Link>{' '}
+					<Link to="/cartSummary">Cart Summary</Link>
+					<main>
+						<Outlet />
+					</main>
+				</div>
+			),
+			children: [
+				{
+					path: '/products', // react query
+					Component: ProductsPage,
+				},
+				{
+					path: '/cartSummary', // redux
+					Component: CartSummaryPage,
+				},
+			],
+		},
+	]);
 }
 
 export default App;

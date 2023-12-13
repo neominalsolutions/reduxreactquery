@@ -3,14 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const client = new QueryClient(); // tüm veri client state üzerinde tutulara işleniyor
+// uygulamadaki tüm server side state işmelerini QueryClientProvider provider teslim ediyoruz.
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+	document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	<>
+		<BrowserRouter>
+			<QueryClientProvider client={client}>
+				<App />
+			</QueryClientProvider>
+		</BrowserRouter>
+	</>
 );
 
 // If you want to start measuring performance in your app, pass a function
