@@ -1,8 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { RootDispatch } from '../store/store';
+import { CartItem, addToCart } from '../store/slices/CartSlice';
 
 function ProductsPage() {
+	// redux actionları tetiklemek için action bağlantısı yapıyoruz
+
+	// useDispatch ile actionı tetiklemek
+	// güncel state bilgisine component'den erişmek için useSelector Hook.
+	const dispatch = useDispatch<RootDispatch>(); // actionlar redux tarafında store.dispatch üzerinden başlatılır.
+
 	// dinamik olarak etiket değerine göre cache bozma işlemi
 
 	const [number, setNumber] = useState<number>(0);
@@ -71,7 +80,25 @@ function ProductsPage() {
 					Güncel Veriyi Manuel olarak getir.{' '}
 				</button>
 				{data.map((item: any) => {
-					return <div>{item.ProductName}</div>;
+					return (
+						<div>
+							{item.ProductName}
+
+							<button
+								onClick={() => {
+									const data: CartItem = {
+										id: item.ProductID,
+										quantity: 1,
+										listPrice: item.UnitPrice,
+										name: item.ProductName,
+									};
+									dispatch(addToCart(data));
+								}}
+							>
+								Sepete Ekle
+							</button>
+						</div>
+					);
 				})}
 			</>
 		);

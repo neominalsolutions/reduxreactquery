@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const client = new QueryClient(); // tüm veri client state üzerinde tutulara işleniyor
 // uygulamadaki tüm server side state işmelerini QueryClientProvider provider teslim ediyoruz.
@@ -15,9 +17,11 @@ const root = ReactDOM.createRoot(
 root.render(
 	<>
 		<BrowserRouter>
-			<QueryClientProvider client={client}>
-				<App />
-			</QueryClientProvider>
+			<Provider store={store}>
+				<QueryClientProvider client={client}>
+					<App />
+				</QueryClientProvider>
+			</Provider>
 		</BrowserRouter>
 	</>
 );
